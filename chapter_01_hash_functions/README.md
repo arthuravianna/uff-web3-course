@@ -10,8 +10,8 @@ The second problem is that we can infer the input, even though hash functions ar
 
 Try out the `simple_hash.py` program to see a hash function in practice. In the next section, we explore Cryptographic Hash Functions, a special group of hash functions.
 
-## Criptographic Hash Functions
-Criptographic Hash Functions are a special class of hash functions that have three important properties: Collision-Resistance, Hiding, and Puzzle Friendliness. Each one of them and its applications are detailed in the next subsections.
+## Cryptographic Hash Functions
+Cryptographic Hash Functions are a special class of hash functions that have three important properties: Collision-Resistance, Hiding, and Puzzle Friendliness. Each one of them and its applications are detailed in the following subsections.
 
 ### Collision-Resistance
 > A collision-resistant hash function is a function for which it is infeasible to find two values x and y with x != y, where H(x) = H(y).
@@ -26,7 +26,7 @@ The application of the hiding property is the case of a limited input universe. 
 ### Puzzle Friendliness
 > A hash function H is said to be puzzle-friendly if for every possible n-bit output value y, if k is chosen from a distribution with high min-entropy, then it is infeasible to find x such that H(k || x) = y in time significantly less than 2ⁿ.
 
-This property is what allows the Proof of Work consensus algorithm to function properly. The mining process in the algorithm involves finding a nonce value k that, when hashed, as with SHA-256, the output starts with a certain number of zero bits. Note that the output y governs the difficulty of the mining/puzzle, and it is exponential according to the property.
+This property is what allows the Proof of Work consensus algorithm to function correctly. The mining process in the algorithm involves finding a nonce value k that, when hashed, as with SHA-256, the output starts with a certain number of zero bits. Note that the output y governs the difficulty of the mining/puzzle, and it is exponential according to the property.
 
 ## Hash Functions and Blockchain
 But what is inside the block? It depends. For instance, Bitcoin's block consists of: Timestamp, Nonce, Previous Block Hash, and Merkle Root. From this list, the least intuitive ones are nonce and Merkle Root. Nonce is the value discovered by the miner (it is the k mentioned in the puzzle-friendliness property). Merkle Root is a summary of the transactions that were grouped into that block. This summary is created using a Merkle tree, which is a binary tree implemented using hash pointers. In this tree, the value of a parent node, suppose v0,1, is given by the hash of the sum of its children, v0 and v1, represented by the expression v0,1 = hash(v0||v1). The figure below showcases how the blocks are organized.
@@ -36,11 +36,17 @@ But what is inside the block? It depends. For instance, Bitcoin's block consists
 Ethereum, on the other hand, utilizes a more complex block structure. Each Ethereum block has three Merkle root hashes: Transactions, Receipts (essentially, pieces of data showing the effect of each transaction), and State.
 
 ## Practical Exercises
-1. The `simple_hash.py` script implements the simple hash mentioned in this doc. Update the code to construct a Hash Table using the simple hash and observe that collisions will happen frequently.
-1. The `cryptographic_hash.py` script utilizes SHA-256 (a cryptographic function used by Bitcoin) to do the hashing.
+This section presents the practical exercises that are useful to complement the reading.
+
+### Simple Hash Function
+The `./exercises/simple_hash/simple_hash.py` script implements the simple hash mentioned in this doc. Update the code to construct a Hash Table (python dict) using the simple hash and play around with it to find a collision.
+
+
+### Cryptographic Hash Function
+The `./exercises/cryptographic_hash/cryptographic_hash.py` script utilizes SHA-256 (a cryptographic hash function used by Bitcoin) to do the hashing. Update the code to construct a Hash Table (Python dict) using the cryptographic hash and observe that collisions will no longer happen.
 
 ### Merkle Trees
-This exercise is divided into two parts, represented by the merkleize and validate_proof functions declared in the `merkle_exercise/merkle.py`. The objective is to implement these two functions. Consider a binary Merkle Tree for the exercise.
+This exercise is divided into two parts, represented by the merkleize and validate_proof functions declared in the `./exercise_merkle_tree/merkle.py`. The objective is to implement these two functions. Consider a binary Merkle Tree for the exercise.
 
 Part 1's objective is to implement the merkleize function. The merkleize function should calculate the Merkle Root Hash of the an string received as input. Consider each block is a word in the sentence (not including spaces, but including punctuation).
 
@@ -57,7 +63,7 @@ Our function will receive the Merkle root, the data for which we're proving incl
 [(sibling_hash, Side.LEFT or Side.RIGHT), (sibling_hash, Side.LEFT or Side.RIGHT), ...]
 ```
 
-Knowing which sides they're on is necessary for the correct concatenation order as you're reconstructing the Merkle path. It may help to sketch out a couple sample proofs and think through how you'd verify them.
+Knowing which sides they're on is necessary for the correct concatenation order as you're reconstructing the Merkle path. Utilize the `exercise_merkle_tree/merkle_test.py` to validate your implementation. The test file might also be helpful to understand the hashing.
 
 ## References
 1. Narayanan, Arvind, et al. Bitcoin and cryptocurrency technologies: a comprehensive introduction. Princeton University Press, 2016
