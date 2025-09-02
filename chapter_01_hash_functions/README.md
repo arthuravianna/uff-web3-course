@@ -36,7 +36,7 @@ But what is inside the block? It depends. For instance, Bitcoin's block consists
 Ethereum, on the other hand, utilizes a more complex block structure. Each Ethereum block has three Merkle root hashes: Transactions, Receipts (essentially, pieces of data showing the effect of each transaction), and State.
 
 ## Practical Exercises
-This section presents the practical exercises that are useful to complement the reading.
+This section presents practical exercises that complement the reading.
 
 ### Simple Hash Function
 The `./exercises/simple_hash/simple_hash.py` script implements the simple hash mentioned in this doc. Update the code to construct a Hash Table (python dict) using the simple hash and play around with it to find a collision.
