@@ -64,7 +64,7 @@ A digital signature is a digital analog to a handwritten signature on paper. The
 
 To reproduce these properties on digital signatures, we utilize asymmetric cryptography. The signature is generated using a private key. Therefore, the first property is guaranteed because only you know the private key. To achieve the second property, the signature is generated based on the message with a function that receives the message as a parameter, such as `sign(priv_key, msg)`.
 
-Bitcoin and Ethereum utilize the Elliptic Curve Digital Signature Algorithm (ECDSA). ECDSA is a U.S.A. government standard, which is an update of the DSA algorithm adapted to use elliptic curves. A limitation of ECDSA is that it can only sign messages of 256 bits. However, this is not a significant issue, as you can sign the message hash. Therefore, you can use a cryptographic hash function, such as SHA256, to calculate the hash and then sign it. Execute the code snippet below to observe how you can sign the hash of a message and then verify its signature.
+Bitcoin and Ethereum utilize the Elliptic Curve Digital Signature Algorithm (ECDSA). ECDSA is a U.S.A. government standard, which is an update of the DSA algorithm adapted to use elliptic curves. A limitation of ECDSA is that it can only sign messages of 256 bits in length. However, this is not a significant issue, as you can sign the message hash. Therefore, you can use a cryptographic hash function, such as SHA256, to calculate the hash and then sign it. Execute the code snippet below to observe how you can sign the hash of a message and then verify its signature.
 
 > [!IMPORTANT]
 > Make sure to install the requirements as mentioned at the beginning of the chapter before running the snippet.
@@ -86,8 +86,21 @@ b"\xd2\xd4\xfeaG\x9a\xb9\xa3\xb8\xbc\x94\xec)Q|\x1f\x19\xf0\x96\n$e\x07\x05C\xf5
 ```
 
 ## Digital Signatures and Blockchain
+There is a high likelihood that you have heard the term "sign a transaction" in the context of blockchain. That is because blockchain has a tight relationship with digital signatures, which we saw in the previous section. In a blockchain, your address is in fact an ECDSA public key. Both Ethereum and Bitcoin utilize the same elliptic curve, the secp256k1.
 
+To calculate an Ethereum address from an ECDSA key pair, you must:
+1. Generate a random private key for the secp256k1 curve
+1. Derive the corresponding public key from the private key
+1. Calculate the keccak256 hash of the public key
+1. Extract the last 40 characters of the keccak hexdigest. The result will be your address!
 
+Execute the Python script `generate_eth_addr.py` to generate an Ethereum account for you. The script will generate output similar to the one below. *To validate the address calculated, try importing the private key on Metamask*.
+
+```
+Private Key: abab48004d5eee98237ed60a487894d9552b62cee944bde308d31fdd428051e9
+Public Key: 49d26c6c5f2025c068e690a28e189877013c668beec26dfbc197c55446a8bf221a2100691690672abea59365034dc251e861a4b8392bf8c582a2481fe2123505
+Ethereum Address: 0x7b858cb41191949ca4007ecbd4ef4a22c363768e
+``` 
 
 ## Practical Exercises
 This section presents practical exercises that complement the reading.
@@ -99,6 +112,7 @@ Build a client-server HTTP communication system that utilizes a symmetric cipher
 - Modify the template server file ``./exercises/cipher/cipher_server.py`` to decrypted the message.
 
 **Hint 1**: The HTTP server can have an endpoint `POST /message` that expects the payload below.
+
 **Hint 2**: To run the FastAPI server, execute the following command: `fastapi dev cipher_server.py`
 
 ``` json
@@ -127,3 +141,4 @@ Build a client-server HTTP communication system that utilizes digital signatures
 ## References
 1. Narayanan, Arvind, et al. Bitcoin and cryptocurrency technologies: a comprehensive introduction. Princeton University Press, 2016
 1. https://www.pycryptodome.org/
+1. https://kobl.one/blog/create-full-ethereum-keypair-and-address/
