@@ -2,7 +2,7 @@ from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from Crypto.Hash import SHA256
-from Crypto.PublicKey import DSA
+from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 import base64
 
@@ -18,7 +18,7 @@ def message(request: MessageRequestBody):
         message = request.message
         signature = base64.b64decode(request.signature)
 
-        public_key = DSA.import_key(open('public_key.pem', "rb").read())
+        public_key = ECC.import_key(open('public_key.pem', "rb").read())
         # TODO: calculate message hash
         
         try:
